@@ -1,24 +1,19 @@
-name: Set Contentful Secrets
-
+name: My Workflow
 on:
   push:
     branches:
       - main
 
 jobs:
-  set-secrets:
+  build:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set Contentful Secrets
+    - name: Run JavaScript
+      run: node ./dist/index.js
       env:
         CONTENTFUL_SPACE_ID: ${{ secrets.CONTENTFUL_SPACE_ID }}
         CONTENTFUL_ACCESS_TOKEN: ${{ secrets.CONTENTFUL_ACCESS_TOKEN }}
-      run: |
-        echo "CONTENTFUL_SPACE_ID=$CONTENTFUL_SPACE_ID" >> $GITHUB_ENV
-        echo "CONTENTFUL_ACCESS_TOKEN=$CONTENTFUL_ACCESS_TOKEN" >> $GITHUB_ENV
-
-    # Add more steps as needed
