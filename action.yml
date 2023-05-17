@@ -1,13 +1,28 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
+name: "Contentful Merge Action"
+description: "A GitHub action for automating Contentful migrations"
 inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
+  contentful_environment:
+    description: "The Contentful environment ID"
     required: true
-    default: '1000'
-outputs:
-  time: # output will be available to future steps
-    description: 'The current time after waiting'
+  contentful_management_token:
+    description: "The Contentful management token"
+    required: true
+  contentful_space:
+    description: "The Contentful space ID"
+    required: true
+
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+  using: "composite"
+  steps:
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v35
+
+    - name: Run action
+      shell: bash
+      run: node $GITHUB_ACTION_PATH/dist/index.js
+      env:
+        INPUT_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+        INPUT_ENVIRONMENT_ID: ${{ inputs.contentful_environment }}
+        INPUT_MANAGEMENT_TOKEN: ${{ inputs.contentful_management_token }}
+        INPUT_SPACE_ID: ${{ inputs.contentful_space }}
