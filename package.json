@@ -1,7 +1,7 @@
 {
-  "name": "javascript-action",
+  "name": "import-action",
   "version": "1.0.0",
-  "description": "JavaScript Action Template",
+  "description": "import Action Template",
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
